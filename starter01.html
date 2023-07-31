@@ -1,0 +1,58 @@
+<html>
+<SCRIPT>
+    var pos = 0;
+    const pacArray = [
+        ['PacMan1.png', 'PacMan2.png'],
+        ['PacMan3.png', 'PacMan4.png']
+    ];
+    var direction = 0;
+    var focus = 0;
+
+
+
+
+
+    //Function Definitions below Here
+    function Run() {
+        let img = document.getElementById("PacMan");
+        let imgWidth = img.width
+        let chompSound = new Audio('pacman_chomp.wav');
+
+        
+        focus = (focus + 1) % 2;
+        if(focus === 0){
+            chompSound.play();
+        }
+        direction = checkPageBounds(direction, imgWidth,img);
+        img.src = pacArray[direction][focus];
+        if (direction) {
+            pos -= 20;
+            img.style.left = pos + "px";
+        } else {
+            pos += 20;
+            img.style.left = pos + 'px';
+        }
+        // Use setTimeout to call Run every 200 millesecs
+        setTimeout(Run,100);
+    }
+
+    function checkPageBounds(direction, imgWidth,img) {
+        //
+        // Complete this to reverse direction on hitting page bounds
+        // 
+        let windowWidth = window.innerWidth;
+        let imgRightBorder = imgWidth + parseInt(img.style.left.replace('px',''),10);
+        if(imgRightBorder >= windowWidth || parseInt(img.style.left.replace('px',''),10) ===0){
+            direction = (direction + 1) % 2;
+        }
+        
+
+        return direction;
+    }
+</SCRIPT>
+
+<body>
+    <img id="PacMan" src="PacMan1.png" width='200' onclick="Run()" style="position:absolute"> </img>
+</body>
+
+</html>
